@@ -4,6 +4,8 @@ src/App.js
 This is the top-level component of the app.
 It contains the top-level state.
 ==================================================*/
+
+// Import our primary components
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
@@ -14,11 +16,13 @@ import LogIn from './components/Login';
 import Credits from './components/Credits';
 import Debits from './components/Debits';
 
+// Define our App component
 class App extends Component {
-  constructor() {  // Create and initialize state
-    super(); 
+  // Create and initialize state, including creditList, debitList, and accountBalance
+  constructor() {
+    super();
     this.state = {
-      accountBalance: 1234567.89,
+      accountBalance: 0,
       creditList: [],
       debitList: [],
       currentUser: {
@@ -131,24 +135,24 @@ class App extends Component {
     }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
-  mockLogIn = (logInInfo) => {  
+  mockLogIn = (logInInfo) => {
     const newUser = {...this.state.currentUser};
     newUser.userName = logInInfo.userName;
     this.setState({currentUser: newUser})
   }
 
   // Create Routes and React elements to be rendered using React components
-  render() {  
+  render() {
     // Create React elements and pass input props to components
     const HomeComponent = () => (<Home accountBalance={this.state.accountBalance} />)
     const UserProfileComponent = () => (
       <UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
     )
-      const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
+    const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
       
-      // For Credits and Debits, pass the account balance (to display at the bottom) and respective lists & functions (to display and modify)
-      const CreditsComponent = () => (<Credits credits={this.state.creditList} addCredit={this.addCredit} accountBalance={this.state.accountBalance}/>)
-      const DebitsComponent = () => (<Debits debits={this.state.debitList} addDebit={this.addDebit} accountBalance={this.state.accountBalance}/>)
+    // For Credits and Debits, pass the account balance (to display at the bottom) and respective lists & functions (to display and modify)
+    const CreditsComponent = () => (<Credits credits={this.state.creditList} addCredit={this.addCredit} accountBalance={this.state.accountBalance}/>)
+    const DebitsComponent = () => (<Debits debits={this.state.debitList} addDebit={this.addDebit} accountBalance={this.state.accountBalance}/>)
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (
@@ -165,4 +169,5 @@ class App extends Component {
   }
 }
 
+// Export our App component
 export default App;

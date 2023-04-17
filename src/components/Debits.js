@@ -11,12 +11,12 @@ const Debits = (props) => {
   // Create the list of Debit items
   let debitsView = () => {
     const { debits } = props;
-    return debits.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
+    return debits.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debit JSON array element
       let date = debit.date.slice(0,10);
       return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
     });
   }
-    
+
   // Render the list of Debit items and a form to input new Debit item
   // We use placeholders in the forms so it is understandable what either
   // text field is, and a step of 0.01 on the amount so values can only be
