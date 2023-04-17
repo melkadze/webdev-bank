@@ -77,6 +77,32 @@ class App extends Component {
         // Set the accountBalance to our counter (the balance we just calculated)
         this.setState({accountBalance: counter})
     }
+    
+    // Add debits as inputted on the form
+    addDebit = (event) => {
+        // Override default form submission behavior completely (prevents the post-submit refresh)
+        event.preventDefault()
+        
+        // Create a blank debit object
+        let debit = {}
+        
+        // Set all of the properties of our object
+        debit.id = this.state.debitList.length + 1 // IDs start at one here, so increment length of debits
+        debit.amount = parseFloat(event.target[1].value) // We already validated the decimal places before, so just convert string->float and set
+        debit.description = event.target[0].value // Just set this property to the one from the form
+        debit.date = new Date().toISOString() // Get the current date and make it into ISO format
+        
+        // Add this new object to our debits list
+        this.state.debitList.push(debit)
+        
+        // Update the balance state across all pages
+        this.updateBalance();
+        
+        console.log(this.state.debitList)
+        
+        // Clear the form (since we overrode the default post-submit refresh which also does this)
+        event.target.reset()
+    }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
   mockLogIn = (logInInfo) => {  
