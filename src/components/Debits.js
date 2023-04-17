@@ -1,14 +1,12 @@
 /*==================================================
 src/components/Debits.js
-
-The Debits component contains information for Debits page view.
-Note: You need to work on this file for the Assignment.
 ==================================================*/
 
 // Import Link as well as the balance component
 import {Link} from 'react-router-dom';
 import AccountBalance from './AccountBalance';
 
+// Define our debits component
 const Debits = (props) => {
   // Create the list of Debit items
   let debitsView = () => {
@@ -18,7 +16,11 @@ const Debits = (props) => {
       return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
     });
   }
+    
   // Render the list of Debit items and a form to input new Debit item
+  // We use placeholders in the forms so it is understandable what either
+  // text field is, and a step of 0.01 on the amount so values can only be
+  // multiples of one cent (and thus only two digits after the decimal)
   return (
     <div>
       <h1>Debits</h1>
@@ -26,8 +28,8 @@ const Debits = (props) => {
       {debitsView()}
 
       <form onSubmit={props.addDebit}>
-        <input type="text" name="description" />
-        <input type="number" name="amount" />
+        <input type="text" name="description" placeholder="Description" />
+        <input type="number" name="amount" placeholder="Amount" step="0.01" />
         <button type="submit">Add Debit</button>
       </form>
       <br/>
@@ -38,4 +40,5 @@ const Debits = (props) => {
   );
 }
 
+// Export our debits component
 export default Debits;
