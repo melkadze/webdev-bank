@@ -27,6 +27,56 @@ class App extends Component {
       }
     };
   }
+    
+    // When the component (the app itself) is loaded, run this
+    async componentDidMount() {
+        // Set the URL for our default credits/debits json files
+        const defaultCredits = "https://johnnylaicode.github.io/api/credits.json"
+        const defaultDebits = "https://johnnylaicode.github.io/api/debits.json"
+        
+        // Asynchronously fetch the credits/debits json files
+        const fetchedCredits = await fetch(defaultCredits)
+        const fetchedDebits = await fetch(defaultDebits)
+        
+        // Convert the fetched data, when it is ready, to json/object form
+        const jsonCredits = await fetchedCredits.json()
+        const jsonDebits = await fetchedDebits.json()
+        
+        // Add every credit to our credits list, when they are ready
+        for (let item of await jsonCredits) {
+            this.state.creditList.push(await item)
+        }
+        
+        // Add every debit to our debits list, when they are ready
+        for (let item of await jsonDebits) {
+            this.state.debitList.push(await item)
+        }
+        
+        // Update the account balances based on the imported data
+        this.updateBalance();
+    }
+    
+    // Updates the account balances
+    updateBalance() {
+        // Keep track of our new balance
+        let counter = 0;
+        
+        // For every credit, increment our counter by its amount
+        for (let item of this.state.creditList) {
+            counter += item.amount
+        }
+        
+        // For every debit, decrement our counter by its amount
+        for (let item of this.state.debitList) {
+            counter -= item.amount
+        }
+        
+        // Cut off anything in the counter past two decimal places
+        counter = counter.toFixed(2)
+        
+        // Set the accountBalance to our counter (the balance we just calculated)
+        this.setState({accountBalance: counter})
+    }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
   mockLogIn = (logInInfo) => {  
