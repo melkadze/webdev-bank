@@ -103,6 +103,32 @@ class App extends Component {
         // Clear the form (since we overrode the default post-submit refresh which also does this)
         event.target.reset()
     }
+    
+    // Add credits as inputted on the form
+    addCredit = (event) => {
+        // Override default form submission behavior completely (prevents the post-submit refresh)
+        event.preventDefault()
+        
+        // Create a blank credit object
+        let credit = {}
+        
+        // Set all of the properties of our object
+        credit.id = this.state.creditList.length + 1 // IDs start at one here, so increment length of credits
+        credit.amount = parseFloat(event.target[1].value) // We already validated the decimal places before, so just convert string->float and set
+        credit.description = event.target[0].value // Just set this property to the one from the form
+        credit.date = new Date().toISOString() // Get the current date and make it into ISO format
+        
+        // Add this new object to our credits list
+        this.state.creditList.push(credit)
+        
+        console.log(this.state.creditList)
+        
+        // Update the balance state across all pages
+        this.updateBalance();
+        
+        // Clear the form (since we overrode the default post-submit refresh which also does this)
+        event.target.reset()
+    }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
   mockLogIn = (logInInfo) => {  
